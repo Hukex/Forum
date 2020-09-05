@@ -1,0 +1,20 @@
+﻿@model ProyectoAspNet.Models.Proyecto
+
+@{
+    ViewBag.Title = "LOD";
+}
+
+@Ajax.ActionLink("Home", "likeOrDislike/" + @Model.id + "/1", null, new AjaxOptions
+{
+HttpMethod = "POST",
+InsertionMode = InsertionMode.Replace,
+UpdateTargetId = "this"
+}, new { style = "background:url(" + @Url.Content(Model.ImagePath2) + ") no-repeat top left;display:block;width:20px;height:20px;text-indent:-9999px;", onmouseover = "this.style.opacity='.8'", onmouseout = "this.style.opacity='1'" })
+<span class="mr-1" id="like">@Model.votosAFavor</span>
+@Ajax.ActionLink("Home", "likeOrDislike/" + @Model.id + "/0", null, new AjaxOptions
+{
+HttpMethod = "POST",
+InsertionMode = InsertionMode.Replace,
+UpdateTargetId = "this"
+}, new { style = "background:url(" + @Url.Content(Model.ImagePath) + ") no-repeat top left;display:block;width:20px;height:20px;text-indent:-9999px;", onmouseover = "this.style.opacity='.8'", onmouseout = "this.style.opacity='1'" })
+<span class="mr-1 ml-1" id="dislike">@Model.votosEnContra</span>

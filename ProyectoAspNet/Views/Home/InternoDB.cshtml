@@ -1,0 +1,106 @@
+﻿@using ProyectoAspNet.Models;
+@model dynamic
+
+@{
+    ViewBag.Title = "InternoDB";
+}
+
+<h2 class="display-3 text-center mb-5">Proyectos</h2>
+
+
+<center>
+    <div class="btn-dark p-1 w-75"></div>
+    <div class="contenedor w-75" style="overflow:auto">
+        <table id="tabla" class="table">
+            <tr class="text-info">
+
+                <th>
+                    Titulo
+                </th>
+
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Votos Positivos
+                </th>
+                <th>
+                    Votos Negativos
+                </th>
+                <th><input name="b" class="float-right" type="text" id="buscar" placeholder="Buscar" /></th>
+            </tr>
+
+            @foreach (Proyecto p in Model.Proyectos)
+            {
+                <tr id="@p.id">
+                    <td>
+                        @p.nombre
+                    </td>
+                    <td>
+                    </td>
+                    <td class="text-success font-weight-bold">
+                        @p.votosAFavor
+                    </td>
+                    <td class="text-danger font-weight-bold">
+                        @p.votosEnContra
+                    </td>
+                    <td></td>
+                </tr>
+            }
+
+
+        </table>
+    </div>
+</center>
+<form action="CrearProyecto" class="text-right" style="width:86%" method="post">
+    <input type="submit" class="btn-dark btn" value="Crear Proyecto" />
+</form>
+
+<div class="mover">
+    @foreach (string a in Model.Usuarios)
+    {
+        <f>@a</f>
+    }
+</div>
+
+
+<script>
+    window.addEventListener("resize", cambioTamañoPantalla);
+    function cambioTamañoPantalla() {
+        document.querySelector(".contenedor").style.maxHeight = (innerHeight - 371) + "px";
+    }
+    cambioTamañoPantalla();
+    var buscar = document.querySelector("#buscar");
+    buscar.addEventListener("input", filtrar);
+    var array = Array.from(document.querySelector("#tabla").children[0].children);
+    array.splice(0, 1);
+    function filtrar() {
+        array.forEach(e => {
+            a = Array.from(e.children);
+            a.splice(2, 1);
+            if ((a[0].innerText.toLowerCase()).includes(buscar.value.toLowerCase()) || (a[1].innerText.toLowerCase()).includes(buscar.value.toLowerCase()))
+                e.style.display = "table-row";
+            else {
+                e.style.display = "none";
+            }
+        })
+    }
+    var mov = document.querySelector(".mover");
+    array.forEach(e => {
+        e.children[1].textContent = mov.children[array.indexOf(e)].textContent;
+    }
+    );
+    mov.remove();
+    array.forEach(e => {
+        e.addEventListener("click", () => {
+            window.location = "Proyectos/" + e.id;
+
+        }); e.style.cursor = "pointer"; e.style.hov
+        e.addEventListener("mouseover", () => {
+            e.style.backgroundColor = "#f8f9fa";
+        });
+        e.addEventListener("mouseout", () => {
+            e.style.backgroundColor = "";
+        });
+    });
+</script>

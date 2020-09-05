@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Proyecto ASPNET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #e3e3e3;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #002;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                @{
+                    if (Session["login"] == null)
+                    {
+                        <li class="nav-item">@Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">@Html.ActionLink("Inicio", "InternoDB", "Home", null, new { @class = "nav-link" })</li>
+                    }
+                }
+                <li class="nav-item">@Html.ActionLink("Crear Usuario", "CrearUsuario", "Home", null, new { @class = "nav-link" })</li>
+                @{
+                    if (Session["login"] != null && (int)Session["login"] == 1)
+                    {
+                        <li class="nav-item">@Html.ActionLink("Administrar Usuarios", "AdministrarUsuarios", "Home", null, new { @class = "nav-link" })</li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </nav>
+    <div class="container body-content pt-5">
+        @RenderBody()
+        <hr />
+        <footer class="text-center">
+            <p>&copy; @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year - Todos los derechos reservados</p>
+        </footer>
+    </div>
+    @{
+        if (Session["login"] != null)
+        {
+            <form action="/Home/CerrarSession" id="but" method="POST">
+                <input type="submit" class="btn btn-dark" value="Cerrar Session  (@Session["usuario"])" />
+            </form>
+
+            <script>
+                const barra1 = document.querySelector(".navbar-nav").parentNode.parentNode;
+                var but = document.querySelector("#but");
+                barra1.appendChild(but);
+            </script>
+        }
+        /**/
+        /**/
+        /**/ }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProyectoAspNet.Models.Comentario>
+
+@{
+    ViewBag.Title = "mostrarComentarios";
+}
+@if (Model.Count() > 0)
+{
+
+    foreach (var c in Model)
+    {
+        <div class="row bg-light border mb-4 mt-3" id='Comment@{@c.id}'>
+            <div class="col-2 border-right">
+
+                <div class="row p-1 pt-3">
+                    <div class="col"> <img src="~/Content/defaultavatar.jpg" width="60" /></div>
+
+                </div>
+                <div class="row font-weight-bold pl-1" style="overflow:hidden">
+                    <div class="col"> <span>@c.userId</span></div>
+                </div>
+            </div>
+            <div class="col-10 text-left">
+                @c.texto
+
+                @{
+                    string s = Session["login"].ToString();
+                    string s2 = Session["U"].ToString();
+                }
+                @if (s.Equals("1") || s2.Equals(c.userId))
+                {
+                    <span class="float-right">
+                        @Ajax.ActionLink("Borrar", "DeleteComment/" + c.id, null, new AjaxOptions
+                                   {
+                                       HttpMethod = "POST",
+                                       InsertionMode = InsertionMode.Replace,
+                                       UpdateTargetId = "Comment" + c.id,
+                                   }, new { @class = "text-danger font-weight-bold" })
+                    </span>}
+
+
+            </div>
+        </div>
+
+    }
+}
+else
+{
+    <h4 class="pt-5 font-italic">No existen comentarios aún</h4>
+}

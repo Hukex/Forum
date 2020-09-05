@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ProyectoAspNet.Models.Usuario>
+
+@{
+    ViewBag.Title = "AdministrarUsuarios";
+}
+
+
+
+<h2 class="display-3 text-center mb-5">Administrar Usuarios</h2>
+
+
+<center>
+
+    <div class="btn-dark p-1 w-75">@ViewBag.change</div>
+    <div class="contenedor w-75" style="overflow:auto">
+        <table id="tabla" class="table">
+            <tr class="text-success">
+                <th>
+                    Usuario
+                </th>
+                <th>
+                    Contraseña
+                </th>
+                <th><input class="float-right" type="text" id="buscar" placeholder="Buscar" /></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.usuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contraseña)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.id }, new { @class = "text-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</center>
+
+
+<script>
+    window.addEventListener("resize", cambioTamañoPantalla);
+    function cambioTamañoPantalla() {
+        document.querySelector(".contenedor").style.maxHeight = (innerHeight - 350) + "px";
+    }
+    cambioTamañoPantalla();
+    var buscar = document.querySelector("#buscar");
+    buscar.addEventListener("input", filtrar);
+    var array = Array.from(document.querySelector("#tabla").children[0].children);
+    array.splice(0, 1);
+
+    function filtrar() {
+        array.forEach(e => {
+            a = Array.from(e.children);
+            a.splice(2, 1);
+            if ((a[0].innerText.toLowerCase()).includes(buscar.value.toLowerCase()) || (a[1].innerText.toLowerCase()).includes(buscar.value.toLowerCase()))
+                e.style.display = "table-row";
+            else {
+                e.style.display = "none";
+            }
+        })
+    }
+</script>
